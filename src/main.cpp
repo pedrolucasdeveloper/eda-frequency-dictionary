@@ -10,6 +10,8 @@
 #include "Dictionary.hpp"
 #include "HashChaining.hpp"
 #include "HashOpenAddressing.hpp"
+#include "AVLTree.hpp"
+#include "RedBlackTree.hpp"
 
 using namespace std;
 
@@ -17,10 +19,15 @@ void printHelp() {
     cout << "Uso:\n";
     cout << "  ./freq dictionary hash-chaining entrada.txt saida.csv\n";
     cout << "  ./freq dictionary hash-open entrada.txt saida.csv\n\n";
+    cout << "  ./freq dictionary avl entrada.txt saida.csv\n";
+    cout << "  ./freq dictionary rb entrada.txt saida.csv\n";
 
     cout << "Estruturas disponiveis:\n";
     cout << "  hash-chaining  -> Tabela hash com encadeamento exterior\n";
     cout << "  hash-open      -> Tabela hash com enderecamento aberto\n\n";
+    cout << "  avl            -> Arvore AVL\n";
+    cout << "  rb             -> Arvore Rubro-Negra\n";
+    
 
     cout << "Exemplo:\n";
     cout << "  ./freq dictionary hash-chaining livro.txt resultado.csv\n";
@@ -137,6 +144,14 @@ Dictionary<string, int>* createDictionary(const string& structureName) {
 
     if (structureName == "hash-open") {
         return new HashOpenAddressing<string, int>();
+    }
+
+    if (structureName == "avl") {
+        return new AVLTree<string, int>();
+    }
+
+    if (structureName == "rb" || structureName == "red-black") {
+        return new RedBlackTree<string, int>();
     }
 
     return NULL;
