@@ -94,8 +94,6 @@ public:
      */
     virtual DictionaryMetrics metrics() const = 0;
 
-    /*
-     * Zera as métricas.
      */
     virtual void resetMetrics() = 0;
 };
