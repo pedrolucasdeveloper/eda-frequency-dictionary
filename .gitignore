@@ -1,0 +1,5 @@
+*.exe
+*.csv
+*.gch
+build/
+results/*.csv

@@ -223,6 +223,7 @@ int main(int argc, char* argv[]) {
     cout << "Palavras distintas: " << dictionary->size() << endl;
     cout << "Tempo de montagem: " << elapsed.count() << " ms" << endl;
     cout << "Comparacoes de chave: " << metrics.keyComparisons << endl;
+    cout << "Rotacoes: " << metrics.rotations << endl;
     cout << "Colisoes: " << metrics.collisions << endl;
     cout << "Probes: " << metrics.probes << endl;
     cout << "Rehashes: " << metrics.rehashes << endl;

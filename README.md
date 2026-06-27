@@ -1,8 +1,8 @@
 # EDA Frequency Dictionary
 
-Projeto final da disciplina de **Estrutura de Dados Avançada**, com o objetivo de contar a frequência de palavras em um arquivo `.txt` usando diferentes implementações de dicionários.
+Projeto final da disciplina de **Estrutura de Dados Avançada**, com o objetivo de contar a frequência de palavras em arquivos `.txt` usando diferentes implementações de dicionários.
 
-O programa lê um arquivo de texto, processa as palavras, ignora pontuações, converte letras maiúsculas para minúsculas e gera um arquivo `.csv` contendo cada palavra encontrada e sua respectiva frequência.
+O programa lê um arquivo de texto, processa as palavras, ignora sinais de pontuação, converte letras maiúsculas ASCII para minúsculas e gera um arquivo `.csv` contendo cada palavra encontrada e sua respectiva frequência.
 
 Além disso, o programa coleta métricas de desempenho das estruturas, como número de comparações de chave, colisões, sondagens, rotações, rehashes e tempo de montagem da tabela de frequências.
 
@@ -25,6 +25,15 @@ Todas as estruturas seguem uma interface comum definida em `Dictionary.hpp`.
 
 ```txt
 eda-frequency-dictionary/
+├── livros/
+│   ├── dom-casmurro.txt
+│   ├── sherlock_holmes.txt
+│   └── a_riqueza_das_nacoes_eng...
+├── results/
+│   ├── dom_avl.csv
+│   ├── dom_rb.csv
+│   ├── dom_hash_chaining.csv
+│   └── dom_hash_open.csv
 ├── src/
 │   ├── AVLTree.hpp
 │   ├── RedBlackTree.hpp
@@ -36,6 +45,9 @@ eda-frequency-dictionary/
 ├── README.md
 └── LICENSE
 ```
+
+A pasta `livros/` contém os arquivos de entrada usados nos testes.
+A pasta `results/` contém arquivos `.csv` gerados durante as execuções experimentais.
 
 ---
 
@@ -197,13 +209,13 @@ Responsabilidades:
 Na raiz do projeto, execute:
 
 ```bash
-g++ -std=c++11 src/main.cpp -o freq.exe
+g++ -std=c++11 -Wall -Wextra -pedantic src/main.cpp -o freq.exe
 ```
 
 No Linux, você pode compilar sem a extensão `.exe`:
 
 ```bash
-g++ -std=c++11 src/main.cpp -o freq
+g++ -std=c++11 -Wall -Wextra -pedantic src/main.cpp -o freq
 ```
 
 ---
@@ -319,6 +331,7 @@ Arquivo de saida: resultado_chaining.csv
 Palavras distintas: 10
 Tempo de montagem: 0.35 ms
 Comparacoes de chave: 15
+Rotacoes: 0
 Colisoes: 1
 Probes: 0
 Rehashes: 0
@@ -336,9 +349,10 @@ Durante a leitura do texto, o programa:
 ```txt
 - Ignora espaços em branco
 - Ignora sinais de pontuação
-- Converte letras maiúsculas para minúsculas
-- Mantém caracteres acentuados
+- Converte letras maiúsculas ASCII para minúsculas
+- Mantém caracteres acentuados em UTF-8
 - Mantém hífen quando aparece dentro de uma palavra
+- Remove hífen quando ele aparece no começo ou no fim de uma palavra
 ```
 
 Exemplo:
@@ -347,6 +361,8 @@ Exemplo:
 "Quatro, QUATRO!" -> "quatro", "quatro"
 "Mostra-lo"       -> "mostra-lo"
 ```
+
+Observação: caracteres acentuados são preservados, mas a conversão completa de letras acentuadas maiúsculas para minúsculas depende de tratamento Unicode mais específico. Por isso, entradas como `ÁRVORE` podem não ser normalizadas exatamente da mesma forma que `árvore`, dependendo do texto e do ambiente de execução.
 
 ---
 
@@ -362,7 +378,7 @@ resultado_avl.csv
 resultado_rb.csv
 ```
 
-Esses arquivos são resultados de compilação ou execução e não precisam necessariamente ser versionados.
+Esses arquivos são resultados de compilação ou execução e não precisam necessariamente ser versionados no Git.
 
 Sugestão de `.gitignore`:
 
@@ -370,7 +386,11 @@ Sugestão de `.gitignore`:
 *.exe
 *.csv
 *.gch
+build/
+results/*.csv
 ```
+
+Para a entrega final no Moodle, os arquivos de resultado usados na análise podem ser incluídos no `.zip`, junto com o código-fonte e o relatório em PDF.
 
 ---
 
@@ -386,14 +406,28 @@ As estruturas são comparadas com base em métricas como:
 - Número de colisões nas tabelas hash
 - Número de sondagens no endereçamento aberto
 - Número de rotações nas árvores balanceadas
+- Número de rehashes nas tabelas hash
 - Fator de carga nas tabelas hash
+```
+
+---
+
+## Exemplo de execução com livro
+
+Exemplo usando o arquivo `dom-casmurro.txt`:
+
+```powershell
+.\freq.exe dictionary avl livros\dom-casmurro.txt results\dom_avl.csv
+.\freq.exe dictionary rb livros\dom-casmurro.txt results\dom_rb.csv
+.\freq.exe dictionary hash-chaining livros\dom-casmurro.txt results\dom_hash_chaining.csv
+.\freq.exe dictionary hash-open livros\dom-casmurro.txt results\dom_hash_open.csv
 ```
 
 ---
 
 ## Integrantes e divisão de tarefas
 
-### Integrante 1
+### Pedro Lucas Silva dos Santos
 
 Responsável por:
 
@@ -407,7 +441,7 @@ Responsável por:
 - Métricas das tabelas hash
 ```
 
-### Integrante 2
+### Maria Gabrielle de Oliveira Peixoto
 
 Responsável por:
 
